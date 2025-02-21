@@ -5,24 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guess the NBA Player</title>
     <style>
-        body { text-align: center; font-family: Arial, sans-serif; }
-        img { width: 300px; height: 300px; border-radius: 10px; margin: 20px; }
-        button { margin: 10px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: white;
+        }
+        img {
+            width: 300px;
+            height: 300px;
+            border-radius: 10px;
+            margin: 20px;
+            border: 5px solid white;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #ddd;
+        }
     </style>
 </head>
 <body>
     <h1>Guess the NBA Player</h1>
+    <h2>Score: <span id="score">0</span></h2>
     <img id="playerImage" src="" alt="NBA Player">
     <div id="choices"></div>
     <p id="result"></p>
 
     <script>
+        let score = 0;
         const players = {
-            "LeBron James": "https://nba-players.herokuapp.com/players/james/lebron",
-            "Kevin Durant": "https://nba-players.herokuapp.com/players/durant/kevin",
-            "Stephen Curry": "https://nba-players.herokuapp.com/players/curry/stephen",
-            "Giannis Antetokounmpo": "https://nba-players.herokuapp.com/players/antetokounmpo/giannis",
-            "Nikola Jokic": "https://nba-players.herokuapp.com/players/jokic/nikola"
+            "LeBron James": "https://a.espncdn.com/i/headshots/nba/players/full/1966.png",
+            "Kevin Durant": "https://a.espncdn.com/i/headshots/nba/players/full/3202.png",
+            "Stephen Curry": "https://a.espncdn.com/i/headshots/nba/players/full/3975.png",
+            "Giannis Antetokounmpo": "https://a.espncdn.com/i/headshots/nba/players/full/3032977.png",
+            "Nikola Jokic": "https://a.espncdn.com/i/headshots/nba/players/full/3112335.png",
+            "Joel Embiid": "https://a.espncdn.com/i/headshots/nba/players/full/3059318.png",
+            "Luka Doncic": "https://a.espncdn.com/i/headshots/nba/players/full/3945274.png",
+            "Jayson Tatum": "https://a.espncdn.com/i/headshots/nba/players/full/4065648.png",
+            "Ja Morant": "https://a.espncdn.com/i/headshots/nba/players/full/4279888.png",
+            "James Harden": "https://a.espncdn.com/i/headshots/nba/players/full/3992.png",
+            "Anthony Davis": "https://a.espncdn.com/i/headshots/nba/players/full/6583.png",
+            "Kawhi Leonard": "https://a.espncdn.com/i/headshots/nba/players/full/6450.png",
+            "Damian Lillard": "https://a.espncdn.com/i/headshots/nba/players/full/6606.png",
+            "Devin Booker": "https://a.espncdn.com/i/headshots/nba/players/full/3136195.png",
+            "Zion Williamson": "https://a.espncdn.com/i/headshots/nba/players/full/4395628.png"
         };
 
         function getRandomPlayer() {
@@ -31,7 +66,13 @@
         }
 
         function generateGame() {
+            if (score >= 30) {
+                document.body.innerHTML = "<h1>Congratulations! You won the game! 🏆</h1>";
+                return;
+            }
+
             document.getElementById("result").innerText = "";
+            document.getElementById("score").innerText = score;
             let correctPlayer = getRandomPlayer();
             document.getElementById("playerImage").src = players[correctPlayer];
             
@@ -54,6 +95,7 @@
         function checkAnswer(selected, correct) {
             if (selected === correct) {
                 document.getElementById("result").innerText = "Correct! 🎉";
+                score += 2;
             } else {
                 document.getElementById("result").innerText = `Wrong! The correct answer was ${correct}.`;
             }
