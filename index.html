@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the NBA Player</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        img { width: 300px; height: 300px; border-radius: 10px; margin: 20px; }
+        button { margin: 10px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Guess the NBA Player</h1>
+    <img id="playerImage" src="" alt="NBA Player">
+    <div id="choices"></div>
+    <p id="result"></p>
+
+    <script>
+        const players = {
+            "LeBron James": "https://example.com/lebron.jpg",
+            "Kevin Durant": "https://example.com/durant.jpg",
+            "Stephen Curry": "https://example.com/curry.jpg",
+            "Giannis Antetokounmpo": "https://example.com/giannis.jpg",
+            "Nikola Jokic": "https://example.com/jokic.jpg"
+        };
+
+        function getRandomPlayer() {
+            const keys = Object.keys(players);
+            return keys[Math.floor(Math.random() * keys.length)];
+        }
+
+        function generateGame() {
+            document.getElementById("result").innerText = "";
+            let correctPlayer = getRandomPlayer();
+            document.getElementById("playerImage").src = players[correctPlayer];
+            
+            let choices = Object.keys(players);
+            choices = choices.sort(() => 0.5 - Math.random()).slice(0, 4);
+            if (!choices.includes(correctPlayer)) {
+                choices[Math.floor(Math.random() * choices.length)] = correctPlayer;
+            }
+            
+            let choicesDiv = document.getElementById("choices");
+            choicesDiv.innerHTML = "";
+            choices.forEach(player => {
+                let btn = document.createElement("button");
+                btn.innerText = player;
+                btn.onclick = () => checkAnswer(player, correctPlayer);
+                choicesDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            if (selected === correct) {
+                document.getElementById("result").innerText = "Correct! 🎉";
+            } else {
+                document.getElementById("result").innerText = `Wrong! The correct answer was ${correct}.`;
+            }
+            setTimeout(generateGame, 2000);
+        }
+
+        window.onload = generateGame;
+    </script>
+</body>
+</html>
